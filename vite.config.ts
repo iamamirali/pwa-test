@@ -32,7 +32,21 @@ export default defineConfig({
             src: 'pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any maskable',
+            purpose: 'maskable',
+          },
+        ],
+        screenshots: [
+          {
+            src: 'screenshot.jpg',
+            sizes: '1200x800',
+            type: 'image/jpg',
+            form_factor: 'wide',
+          },
+          {
+            src: 'screenshot.jpg',
+            sizes: '1200x800',
+            type: 'image/jpg',
+            form_factor: 'narrow',
           },
         ],
       },
