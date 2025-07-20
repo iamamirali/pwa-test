@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+import ImageUploader from "./ImageUploader";
 
 function App() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [confirmButton, setConfirmButton] = useState(false);
-  const [startButton, setStartButton] = useState(false);
+  const [startButton, setStartButton] = useState(true);
 
   useEffect(() => {
     const handlePaste = (e: ClipboardEvent) => {
-      const pastedData = e.clipboardData?.getData('text');
-
+      const pastedData = e.clipboardData?.getData("text");
       if (pastedData) {
-        // setValue(pastedData.trim());
+        setValue(pastedData.trim());
         setConfirmButton(true);
       }
     };
@@ -19,50 +19,66 @@ function App() {
       setStartButton(true);
     };
 
-    window.addEventListener('paste', handlePaste);
-    window.addEventListener('focus', handleAppFocus);
+    window.addEventListener("paste", handlePaste);
+    window.addEventListener("focus", handleAppFocus);
 
     return () => {
-      window.removeEventListener('paste', handlePaste);
-      window.removeEventListener('focus', handleAppFocus);
+      window.removeEventListener("paste", handlePaste);
+      window.removeEventListener("focus", handleAppFocus);
     };
   }, []);
 
   return (
-    <div>
-      <h1>hello world</h1>
-      <p>{`value: ${value}`}</p>
-      {confirmButton && !startButton && (
-        <button
-          onClick={() => {
-            setValue('');
-          }}
-          style={{ width: 100, height: 100 }}
-        >
-          confirm
-        </button>
-      )}
-      {startButton && (
-        <button
-          onClick={() => {
-            setStartButton(false);
-            setValue('');
-          }}
-          style={{ width: 100, height: 100 }}
-        >
-          start
-        </button>
-      )}
-      <input
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        padding: "48px",
+        flexWrap: "wrap",
+        gap: "48px",
+      }}
+    >
+      <div style={{ minWidth: "300px" }}>
+        <h2>تست اسکن</h2>
+        <p>{`مقدار اسکن شده: ${value}`}</p>
+        {confirmButton && !startButton && (
+          <button
+            onClick={() => {
+              setValue("");
+            }}
+            style={{ width: 80, height: 80 }}
+          >
+            تایید اسکن
+          </button>
+        )}
+
+        {startButton && (
+          <button
+            onClick={() => {
+              setStartButton(false);
+              setValue("");
+            }}
+            style={{ width: 80, height: 80 }}
+          >
+            شروع اسکن
+          </button>
+        )}
+        {/* <input
         inputMode="none"
-        value={''}
+        value={""}
         onChange={(e) => setValue(e.target.value)}
         // style={{
         //   position: 'absolute',
         //   opacity: 0,
         //   pointerEvents: 'none',
         // }}
-      />
+      /> */}
+      </div>
+
+      <div>
+        <h2>تست آپلود تصویر</h2>
+        <ImageUploader onChange={(_, base64) => console.log(base64)} />
+      </div>
     </div>
   );
 }
