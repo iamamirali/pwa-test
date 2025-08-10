@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from 'react';
-import ImageUploader from './ImageUploader';
+import { useEffect, useState } from "react";
+import ImageUploader from "./ImageUploader";
 
 function App() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [confirmButton, setConfirmButton] = useState(false);
   const [startButton, setStartButton] = useState(true);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const handlePaste = (e: ClipboardEvent) => {
-      const pastedData = e.clipboardData?.getData('text');
+      const pastedData = e.clipboardData?.getData("text");
       if (pastedData) {
         setValue(pastedData.trim());
         setConfirmButton(true);
@@ -21,40 +21,39 @@ function App() {
       setStartButton(true);
     };
 
-    window.addEventListener('paste', handlePaste);
-    window.addEventListener('focus', handleAppFocus);
+    window.addEventListener("paste", handlePaste);
+    window.addEventListener("focus", handleAppFocus);
 
     return () => {
-      window.removeEventListener('paste', handlePaste);
-      window.removeEventListener('focus', handleAppFocus);
+      window.removeEventListener("paste", handlePaste);
+      window.removeEventListener("focus", handleAppFocus);
     };
   }, []);
 
-  useEffect(() => {
-    const registerSync = async () => {
-      if ('serviceWorker' in navigator && 'SyncManager' in window) {
-        const registration = await navigator.serviceWorker.ready;
-        try {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          await (registration as any).sync.register('sync-data');
-          console.log('Background sync registered');
-        } catch (err) {
-          console.error('Sync registration failed', err);
-        }
+  const registerSync = async () => {
+    if ("serviceWorker" in navigator && "SyncManager" in window) {
+      const registration = await navigator.serviceWorker.ready;
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await (registration as any).sync.register("sync-data");
+        console.log("Background sync registered");
+      } catch (err) {
+        console.error("Sync registration failed", err);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     const handleBeforeUnload = () => {
       // Save any needed data in IndexedDB here if needed
       // Register the background sync
       // registerSync();
     };
-    registerSync();
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
 
@@ -63,11 +62,11 @@ function App() {
       // await fetch('https://jsonplaceholder.typicode.com/posts')
       // await fetch('https://fakestoreapi.com/products')
       await fetch(
-        'http://192.168.45.21:6565/api/SlaughterhouseDailyReport?pageLength=10  &page=1',
+        "https://halalaplicant.cmtcode.ir/api/SlaughterhouseDailyReport?pageLength=10&page=1",
         {
           headers: {
             Authorization:
-              'eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwIiwibmFtZSI6Iti52KjYp9izICDYr9in2K_ZiNmG2K82IiwidXNlcm5hbWUiOiIyMzYwMDA3ODY2IiwidHlwZSI6IkFwcGxpY2FudEFjb3VudCIsInBhc3N3b3JkSXNDaGFuZ2VkIjoiVHJ1ZSIsImlzRm9yZWlnbmVyIjoiRmFsc2UiLCJ0ayI6IjZkNWY3MzFkLTc1NTMtNDE5Ni1iNGJmLTA3YzM3MzFmMzljYiIsIm5iZiI6MTc1NDc0MTUwNCwiZXhwIjoxNzU0NzQxNjg0LCJpc3MiOiIxOTIuMTY4LjQ1LjIxOjY1NjUifQ.4xml2PWrOVVeNORhJa8_Kof1MOMW0vOiyeccT_GXsJY',
+              "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwIiwibmFtZSI6Iti52KjYp9izICDYr9in2K_ZiNmG2K82IiwidXNlcm5hbWUiOiIyMzYwMDA3ODY2IiwidHlwZSI6IkFwcGxpY2FudEFjb3VudCIsInBhc3N3b3JkSXNDaGFuZ2VkIjoiVHJ1ZSIsImlzRm9yZWlnbmVyIjoiRmFsc2UiLCJ0ayI6IjZkNWY3MzFkLTc1NTMtNDE5Ni1iNGJmLTA3YzM3MzFmMzljYiIsIm5iZiI6MTc1NDc0MTUwNCwiZXhwIjoxNzU0NzQxNjg0LCJpc3MiOiIxOTIuMTY4LjQ1LjIxOjY1NjUifQ.4xml2PWrOVVeNORhJa8_Kof1MOMW0vOiyeccT_GXsJY",
           },
         }
       )
@@ -98,19 +97,19 @@ function App() {
     getPosts();
 
     async function requestNotificationPermission() {
-      if (!('Notification' in window)) {
-        alert('This browser does not support notifications.');
+      if (!("Notification" in window)) {
+        alert("This browser does not support notifications.");
         return;
       }
 
       const permission = await Notification.requestPermission();
 
-      if (permission === 'granted') {
-        console.log('Notification permission granted!');
-      } else if (permission === 'denied') {
-        console.log('Notification permission denied.');
+      if (permission === "granted") {
+        console.log("Notification permission granted!");
+      } else if (permission === "denied") {
+        console.log("Notification permission denied.");
       } else {
-        console.log('Notification permission dismissed.');
+        console.log("Notification permission dismissed.");
       }
     }
 
@@ -120,20 +119,20 @@ function App() {
   return (
     <div
       style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        padding: '48px',
-        flexWrap: 'wrap',
-        gap: '48px',
+        display: "flex",
+        justifyContent: "space-between",
+        padding: "48px",
+        flexWrap: "wrap",
+        gap: "48px",
       }}
     >
-      <div style={{ minWidth: '300px' }}>
+      <div style={{ minWidth: "300px" }}>
         <h2>تست اسکن</h2>
         <p>{`مقدار اسکن شده: ${value}`}</p>
         {confirmButton && !startButton && (
           <button
             onClick={() => {
-              setValue('');
+              setValue("");
             }}
             style={{ width: 80, height: 80 }}
           >
@@ -145,7 +144,7 @@ function App() {
           <button
             onClick={() => {
               setStartButton(false);
-              setValue('');
+              setValue("");
             }}
             style={{ width: 80, height: 80 }}
           >
@@ -176,6 +175,7 @@ function App() {
             ID:{(item as any).id} DESC:{(item as any).description}
           </div>
         ))}
+        <button onClick={registerSync}>request</button>
       </div>
     </div>
   );

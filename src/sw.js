@@ -1,66 +1,45 @@
-import { precacheAndRoute } from 'workbox-precaching';
+import { precacheAndRoute } from "workbox-precaching";
 
 // This will be replaced by the plugin with actual file list
 precacheAndRoute(self.__WB_MANIFEST);
 
-self.addEventListener('sync', (event) => {
-  if (event.tag === 'sync-data') {
+self.addEventListener("sync", (event) => {
+  console.log("hello");
+  if (event.tag === "sync-data") {
+    const formdata = new FormData();
+    formdata.append("Id", "52");
+    formdata.append("Date", "Sat Aug 02 2025");
+    formdata.append("SlaughterhouseId", "31");
+    formdata.append("Description", `${Math.random()}`);
+    formdata.append("Slaughterer", "23");
+    formdata.append("LegalDeletionsCount", "23");
+    formdata.append("SlaughteredAnimalsCount", "233");
+    formdata.append("ProductionDetails[0][VipId]", "60");
+    formdata.append("ProductionDetails[0][ProductionPermitId]", "40");
+    formdata.append("ProductionDetails[0][ProductId]", "19");
+    formdata.append("ProductionDetails[0][CompanyId]", "24");
+    formdata.append("ProductionDetails[0][Weight]", "345");
+    formdata.append("ProductionDetails[0][Count]", "4");
+    formdata.append("ProductionDetails[1][VipId]", "76");
+    formdata.append("ProductionDetails[1][ProductionPermitId]", "74");
+    formdata.append("ProductionDetails[1][ProductId]", "4");
+    formdata.append("ProductionDetails[1][CompanyId]", "97");
+    formdata.append("ProductionDetails[1][Weight]", "3455");
+    formdata.append("ProductionDetails[1][Count]", "43");
+
     event.waitUntil(
-      new Promise((resolve) => {
-        // Delay for 10 seconds before sending the request
-        setTimeout(async () => {
-          try {
-            const formdata = new FormData();
-            formdata.append('Id', '52');
-            formdata.append('Date', 'Sat Aug 02 2025');
-            formdata.append('SlaughterhouseId', '31');
-            formdata.append('Description', 'aa');
-            formdata.append('Slaughterer', '23');
-            formdata.append('LegalDeletionsCount', '23');
-            formdata.append('SlaughteredAnimalsCount', '233');
-            formdata.append('ProductionDetails[0][VipId]', '60');
-            formdata.append('ProductionDetails[0][ProductionPermitId]', '40');
-            formdata.append('ProductionDetails[0][ProductId]', '19');
-            formdata.append('ProductionDetails[0][CompanyId]', '24');
-            formdata.append('ProductionDetails[0][Weight]', '345');
-            formdata.append('ProductionDetails[0][Count]', '4');
-            formdata.append('ProductionDetails[1][VipId]', '76');
-            formdata.append('ProductionDetails[1][ProductionPermitId]', '74');
-            formdata.append('ProductionDetails[1][ProductId]', '4');
-            formdata.append('ProductionDetails[1][CompanyId]', '97');
-            formdata.append('ProductionDetails[1][Weight]', '3455');
-            formdata.append('ProductionDetails[1][Count]', '43');
-
-            const response = await fetch(
-              'http://192.168.45.21:6565/api/SlaughterhouseDailyReport',
-              {
-                method: 'POST',
-                headers: {
-                  Authorization:
-                    'eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwIiwibmFtZSI6Iti52KjYp9izICDYr9in2K_ZiNmG2K82IiwidXNlcm5hbWUiOiIyMzYwMDA3ODY2IiwidHlwZSI6IkFwcGxpY2FudEFjb3VudCIsInBhc3N3b3JkSXNDaGFuZ2VkIjoiVHJ1ZSIsImlzRm9yZWlnbmVyIjoiRmFsc2UiLCJ0ayI6IjZkNWY3MzFkLTc1NTMtNDE5Ni1iNGJmLTA3YzM3MzFmMzljYiIsIm5iZiI6MTc1NDc0MTUwNCwiZXhwIjoxNzU0NzQxNjg0LCJpc3MiOiIxOTIuMTY4LjQ1LjIxOjY1NjUifQ.4xml2PWrOVVeNORhJa8_Kof1MOMW0vOiyeccT_GXsJY',
-                },
-                body: formdata,
-                keepalive: true,
-              }
-            );
-
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-          } catch (err) {
-            console.error('[SW] Sync failed:', err);
-
-            self.registration.showNotification('Sync Failed', {
-              body: 'Unable to send data. Please check your connection.',
-              icon: '/icons/failure-icon.png',
-              vibrate: [200, 100, 200],
-              tag: 'sync-failed-notification',
-              renotify: true,
-            });
-          }
-          resolve();
-        }, 10000); // 10 seconds delay
-      })
+      fetch(
+        // test
+        "https://halalaplicant.cmtcode.ir/api/SlaughterhouseDailyReport",
+        {
+          method: "PUT",
+          headers: {
+            Authorization:
+              "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwIiwibmFtZSI6Iti52KjYp9izICDYr9in2K_ZiNmG2K82IiwidXNlcm5hbWUiOiIyMzYwMDA3ODY2IiwidHlwZSI6IkFwcGxpY2FudEFjb3VudCIsInBhc3N3b3JkSXNDaGFuZ2VkIjoiVHJ1ZSIsImlzRm9yZWlnbmVyIjoiRmFsc2UiLCJ0ayI6IjZkNWY3MzFkLTc1NTMtNDE5Ni1iNGJmLTA3YzM3MzFmMzljYiIsIm5iZiI6MTc1NDc0MTUwNCwiZXhwIjoxNzU0NzQxNjg0LCJpc3MiOiIxOTIuMTY4LjQ1LjIxOjY1NjUifQ.4xml2PWrOVVeNORhJa8_Kof1MOMW0vOiyeccT_GXsJY",
+          },
+          body: formdata,
+        }
+      )
     );
   }
 });
