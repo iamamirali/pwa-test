@@ -1,78 +1,46 @@
-import { useEffect, useState } from "react";
-import ImageUploader from "./ImageUploader";
+import { useEffect, useState } from 'react';
+import ImageUploader from './ImageUploader';
 
 function App() {
-  const [value, setValue] = useState("");
-  const [confirmButton, setConfirmButton] = useState(false);
-  const [startButton, setStartButton] = useState(true);
+  const [inputValue, setInputValue] = useState('');
+  const [clipboardValue, setClipboardValue] = useState('');
 
   useEffect(() => {
     const handlePaste = (e: ClipboardEvent) => {
-      const pastedData = e.clipboardData?.getData("text");
+      const pastedData = e.clipboardData?.getData('text');
       if (pastedData) {
-        setValue(pastedData.trim());
-        setConfirmButton(true);
+        setClipboardValue(pastedData.trim());
       }
     };
 
-    const handleAppFocus = () => {
-      setStartButton(true);
-    };
-
-    window.addEventListener("paste", handlePaste);
-    window.addEventListener("focus", handleAppFocus);
+    window.addEventListener('paste', handlePaste);
 
     return () => {
-      window.removeEventListener("paste", handlePaste);
-      window.removeEventListener("focus", handleAppFocus);
+      window.removeEventListener('paste', handlePaste);
     };
   }, []);
 
   return (
     <div
       style={{
-        display: "flex",
-        justifyContent: "space-between",
-        padding: "48px",
-        flexWrap: "wrap",
-        gap: "48px",
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: '48px',
+        flexWrap: 'wrap',
+        gap: '48px',
       }}
     >
-      <div style={{ minWidth: "300px" }}>
+      <div style={{ minWidth: '300px' }}>
         <h2>تست اسکن</h2>
-        <p>{`مقدار اسکن شده: ${value}`}</p>
-        {confirmButton && !startButton && (
-          <button
-            onClick={() => {
-              setValue("");
-            }}
-            style={{ width: 80, height: 80 }}
-          >
-            تایید اسکن
-          </button>
-        )}
-
-        {startButton && (
-          <button
-            onClick={() => {
-              setStartButton(false);
-              setValue("");
-            }}
-            style={{ width: 80, height: 80 }}
-          >
-            شروع اسکن
-          </button>
-        )}
-        {/* <input
-        inputMode="none"
-        value={""}
-        onChange={(e) => setValue(e.target.value)}
-        // style={{
-        //   position: 'absolute',
-        //   opacity: 0,
-        //   pointerEvents: 'none',
-        // }}
-      /> */}
+        <p>{`مقدار اسکن شده از کلیپ بورد: ${clipboardValue}`}</p>
+        <br />
+        <p>{`مقدار اسکن شده از اینپوت: ${inputValue}`}</p>
+        <br />
+        <input
+          inputMode="none"
+          value=""
+          onChange={(e) => setInputValue(e.target.value)}
+        />
       </div>
 
       <div>
