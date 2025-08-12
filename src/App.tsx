@@ -1,9 +1,20 @@
 import { useEffect, useState } from 'react';
 import ImageUploader from './ImageUploader';
 
+type TLocation = {
+  longitude: number | '';
+  latitude: number | '';
+  error?: string;
+};
+
 function App() {
   const [inputValue, setInputValue] = useState('');
   const [clipboardValue, setClipboardValue] = useState('');
+  const [location, setLocation] = useState<TLocation>({
+    longitude: '',
+    latitude: '',
+    error: '',
+  });
 
   useEffect(() => {
     const handlePaste = (e: ClipboardEvent) => {
@@ -19,6 +30,30 @@ function App() {
       window.removeEventListener('paste', handlePaste);
     };
   }, []);
+
+  function getUserLocation() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation({
+            longitude: position.coords.longitude,
+            latitude: position.coords.latitude,
+          });
+        },
+        (error) => {
+          setLocation((prev) => ({ ...prev, error: error.message }));
+        },
+        {
+          maximumAge: 0,
+        }
+      );
+    } else {
+      setLocation((prev) => ({
+        ...prev,
+        error: 'Geolocation not supported by this browser',
+      }));
+    }
+  }
 
   return (
     <div
@@ -46,6 +81,16 @@ function App() {
       <div>
         <h2>تست آپلود تصویر</h2>
         <ImageUploader onChange={(_, base64) => console.log(base64)} />
+      </div>
+
+      <div>
+        <h2>تست لوکیشن</h2>
+        <button onClick={getUserLocation}>دریافت لوکیشن</button>
+        <p>Longitude: {location.longitude}</p>
+        <p>Latitude: {location.latitude}</p>
+        {location.error && (
+          <p style={{ color: 'red', direction: 'ltr' }}>{location.error}</p>
+        )}
       </div>
     </div>
   );
